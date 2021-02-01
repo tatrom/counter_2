@@ -1,0 +1,41 @@
+.display
+{
+    font-size: 20px;
+
+    position: absolute;
+    top: 20px;
+    left: 100px;
+
+    width: 300px;
+    height: 200px;
+
+    border: 1px solid grey;
+    border-radius: 15px;
+    background-color: #bababa;
+}
+
+
+.display.error
+{
+    font-size: 30px;
+
+    color: red;
+    background-color: pink;
+}
+
+.input
+{
+    background-color: red;
+}
+
+.counter {
+    padding-top: 80px;
+}
+
+.setMode.error
+{
+    border: 1px solid red;
+    outline: none;
+    color: red;
+    font-size: 20px;
+}

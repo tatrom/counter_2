@@ -1,0 +1,43 @@
+.console
+{
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+
+    width: 400px;
+    height: 100px;
+
+    border: 1px solid yellow;
+    border-radius: 15px;
+    background: #959976;
+}
+
+
+.inc
+{
+    position: absolute;
+    top: 30px;
+    left: 20px;
+}
+
+.set_inc_mode
+{
+    position: absolute;
+    top: 30px;
+    right: 20px;
+}
+
+.reset
+{
+    position: absolute;
+    top: 30px;
+    right: 40%;
+    padding-right: 15px;
+}
+
+.set_set_mode
+{
+    position: absolute;
+    top: 30px;
+    right: 45%;
+}
