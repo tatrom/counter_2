@@ -5,9 +5,9 @@ import {Counter2} from "./components/Counter/Counter2";
 
 function App() {
     let minimum = localStorage.getItem('minValue')
-    let newMinimum = 0;
+    let newMinimum = 1;
     let maximum = localStorage.getItem('maxValue')
-    let newMaximum = 0;
+    let newMaximum = 10;
     if (minimum !== null) {
         newMinimum = parseInt(minimum)
     }
