@@ -8,10 +8,10 @@ type CounterType = {
     changeMode: () => void
     resetCounter: () => void
     incCounter: () => void
-    minValue: number
-    maxValue: number
-    changeMaxValue: (newValue: string, noValue: boolean) => void
-    changeMinValue: (newValue: number) => void
+    minValue: string
+    maxValue: string
+    changeMaxValue: (newValue: string) => void
+    changeMinValue: (newValue: string) => void
     disabledHandler: (type: string) => boolean
 }
 

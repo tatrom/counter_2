@@ -7,8 +7,8 @@ type ConsoleType = {
     changeMode: () => void
     resetCounter: () => void
     incCounter: () => void
-    minValue: number
-    maxValue: number
+    minValue: string
+    maxValue: string
     counter: number
     disabledHandler: (type: string) => boolean
 }
@@ -29,15 +29,14 @@ type IncrementModeType = {
     incCounter: () => void
     changeMode: () => void
     counter: number
-    maxValue: number
+    maxValue: string
     mode: boolean
     disabledHandler: (type: string) => boolean
 }
 
 function IncrementMode(props: IncrementModeType) {
     return <div>
-        <div className={s.inc}><Button name={"inc"} callback={props.incCounter} maxValue={props.maxValue}
-                                       counter={props.counter}
+        <div className={s.inc}><Button name={"inc"} callback={props.incCounter}
                                        mode={props.mode} disabledHandler={props.disabledHandler}/></div>
         <div className={s.reset}><Button name={"reset"} callback={props.resetCounter} mode={props.mode}
                                          disabledHandler={props.disabledHandler}/></div>
@@ -49,8 +48,8 @@ function IncrementMode(props: IncrementModeType) {
 type SetModeType = {
     changeMode: () => void
     mode: boolean
-    minValue: number
-    maxValue: number
+    minValue: string
+    maxValue: string
     disabledHandler: (type: string) => boolean
 
 }
@@ -60,7 +59,7 @@ function SetMode(props: SetModeType) {
         props.changeMode()
     }
     return <div className={s.set_set_mode}>
-        <Button name={"set"} callback={ChangeModeHandler} mode={props.mode} maxValue={props.maxValue}
+        <Button name={"set"} callback={ChangeModeHandler} mode={props.mode}
                 minValue={props.minValue} disabledHandler={props.disabledHandler}/>
     </div>
 }

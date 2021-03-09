@@ -4,16 +4,16 @@ import s from './Display.module.css'
 type DisplayProps = {
     mode: boolean
     counter: number
-    minValue: number
-    maxValue: number
-    changeMinValue: (newValue: number) => void
-    changeMaxValue: (newValue: string, noValue: boolean) => void
+    minValue: string
+    maxValue: string
+    changeMinValue: (newValue: string) => void
+    changeMaxValue: (newValue: string) => void
 }
 
 export function Display(props: DisplayProps) {
     let style;
     if (props.mode) {
-        style = props.counter < props.maxValue ? s.display : `${s.display} ${s.error}`
+        style = props.counter < parseInt(props.maxValue) ? s.display : `${s.display} ${s.error}`
     } else {
 
     }
@@ -27,7 +27,7 @@ export function Display(props: DisplayProps) {
 
 type IncrementModeType = {
     counter: number
-    maxValue: number
+    maxValue: string
 }
 
 function IncrementMode(props: IncrementModeType) {
@@ -37,27 +37,27 @@ function IncrementMode(props: IncrementModeType) {
 }
 
 type SetModeType = {
-    minValue: number
-    maxValue: number
-    changeMinValue: (newValue: number) => void
-    changeMaxValue: (newValue: string, noValue: boolean ) => void
+    minValue: string
+    maxValue: string
+    changeMinValue: (newValue: string) => void
+    changeMaxValue: (newValue: string) => void
 }
 
 
 function SetMode(props: SetModeType) {
-    let style = props.minValue < props.maxValue ? "" : `${s.setMode} ${s.error}`
+    let style = parseInt(props.minValue) < parseInt(props.maxValue) ? "" : `${s.setMode} ${s.error}`
     const OnMinChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value
-        const newNumber = parseInt(newValue)
-        props.changeMinValue(newNumber)
+        props.changeMinValue(newValue)
     }
     const OnMaxChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            const newValue = e.target.value
-        if ( newValue !== "" ) {
-            props.changeMaxValue(newValue, false)
-        } else {
-            props.changeMaxValue(newValue, true)
-        }
+        const newValue = e.target.value
+        // if (newValue !== "") {
+        //     props.changeMaxValue(newValue)
+        // } else {
+        // const newNumber = parseInt(newValue)
+        props.changeMaxValue(newValue)
+        // }
     }
     return <div>
         <div> min value: <input className={style} type="number" onChange={OnMinChangeHandler} value={props.minValue}/>

@@ -1,78 +1,68 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Counter2} from "./components/Counter/Counter2";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStoreType} from "./store/redux-store";
+import {
+    ChangeMaxValueTC,
+    ChangeMinValueTC,
+    ChangeModeTC,
+    IncCounter,
+    InitialStateType,
+    ResetCounter,
+    SetMinAndMaxTC
+} from "./store/counter-reducer";
 
 
 function App() {
-    let minimum = localStorage.getItem('minValue')
-    let newMinimum = 1;
-    let maximum = localStorage.getItem('maxValue')
-    let newMaximum = 10;
-    if (minimum !== null) {
-        newMinimum = parseInt(minimum)
-    }
-    if (maximum !== null) {
-        newMaximum = parseInt(maximum)
-    }
-    let [counter, setCounter] = useState<number>(newMinimum)
-    let [mode, setMode] = useState<boolean>(false)
-    let [minValue, setMinValue] = useState<number>(newMinimum)
-    let [maxValue, setMaxValue] = useState<number>(newMaximum)
-    let [noMaxValue, setNoMaxValue] = useState<boolean>(false)
+    const dispatch = useDispatch()
+    const state = useSelector<AppStoreType, InitialStateType>(state => state.counter)
+    useEffect(() => {
+        dispatch(SetMinAndMaxTC())
+    }, [dispatch])
+
+
     const ChangeMode = () => {
-        setMode(!mode);
-        setCounter(minValue);
-        // localStorage.setItem('minValue', minValue.toString())
-        // localStorage.setItem('maxValue', maxValue.toString())
-    }
-    const IncCounter = () => {
-        setCounter(counter + 1)
-    }
-    const ResetCounter = () => {
-        setCounter(newMinimum);
-    }
-    const ChangeMinValue = (newValue: number) => {
-        setMinValue(newValue)
-        localStorage.setItem('minValue', newValue.toString())
-    }
-    const ChangeMaxValue = (newValue: string, noValue: boolean) => {
-        if ( noValue) {
-            setNoMaxValue(noValue)
-            let newMax = parseInt(newValue);
-            setMaxValue(newMax)
-            localStorage.setItem('maxValue', newValue.toString())
-        } else {
-            setNoMaxValue(noValue)
-            let newMax = parseInt(newValue);
-            setMaxValue(newMax)
-            localStorage.setItem('maxValue', newValue.toString())
-        }
+        dispatch(ChangeModeTC(state.minValue, state.maxValue))
     }
 
+    const ChangeMinValue = (newValue: string) => {
+        dispatch(ChangeMinValueTC(newValue))
+    }
+    const ChangeMaxValue = (newValue: string) => {
+        dispatch(ChangeMaxValueTC(newValue))
+    }
     const DisabledHandler = (type: string): boolean => {
         if (type === "set") {
-            if (minValue >= maxValue ) {
+            if (parseInt(state.minValue) >= parseInt(state.maxValue) || state.minValue === '' || state.maxValue === '') {
                 return true
             }
-            if (noMaxValue) {
-                return true
+            if (state.maxValue && state.mode) {
+                return false
             }
-            return false
         }
         if (type === "inc") {
-            if (counter >= maxValue) {
+            if (state.counter >= parseInt(state.maxValue)) {
                 return true
             }
-
         }
-
         return false
     }
-    console.log(localStorage.getItem('minValue'))
+
+    const IncCounterHandler = () => {
+        dispatch(IncCounter())
+    }
+
+    const ResetCounterHandler = () => {
+        dispatch(ResetCounter())
+    }
     return (
         <div className="App">
-            <Counter2 mode={mode} counter={counter} changeMode={ChangeMode} resetCounter={ResetCounter}
-                      incCounter={IncCounter} minValue={minValue} maxValue={maxValue}
+            <Counter2 mode={state.mode} counter={state.counter} changeMode={ChangeMode}
+                      resetCounter={ResetCounterHandler}
+                      incCounter={IncCounterHandler}
+                      minValue={state.minValue}
+                      maxValue={state.maxValue}
                       changeMinValue={ChangeMinValue}
                       changeMaxValue={ChangeMaxValue}
                       disabledHandler={DisabledHandler}

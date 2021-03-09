@@ -4,10 +4,8 @@ import s from './Button.module.css'
 type ButtonType = {
     name: string
     callback: () => void
-    counter?: number
-    maxValue?: number
     mode: boolean
-    minValue?: number
+    minValue?: string
     disabledHandler: (type: string) => boolean
 
 }
