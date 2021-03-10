@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import s from './Console.module.css'
 import {Button} from "../../Button/Button";
 
@@ -13,16 +13,18 @@ type ConsoleType = {
     disabledHandler: (type: string) => boolean
 }
 
-export function Console(props: ConsoleType) {
-    return <div className={s.console}>
-        {props.mode ?
-            <IncrementMode resetCounter={props.resetCounter} changeMode={props.changeMode} incCounter={props.incCounter}
-                           counter={props.counter} maxValue={props.maxValue} mode={props.mode}
-                           disabledHandler={props.disabledHandler}/> :
-            <SetMode changeMode={props.changeMode} mode={props.mode} maxValue={props.maxValue} minValue={props.minValue}
-                     disabledHandler={props.disabledHandler}/>}
-    </div>
-}
+export const Console = React.memo((props: ConsoleType) => {
+        console.log('Console is rendered')
+        return <div className={s.console}>
+            {props.mode ?
+                <IncrementMode resetCounter={props.resetCounter} changeMode={props.changeMode} incCounter={props.incCounter}
+                               counter={props.counter} maxValue={props.maxValue} mode={props.mode}
+                               disabledHandler={props.disabledHandler}/> :
+                <SetMode changeMode={props.changeMode} mode={props.mode} maxValue={props.maxValue} minValue={props.minValue}
+                         disabledHandler={props.disabledHandler}/>}
+        </div>
+    }
+)
 
 type IncrementModeType = {
     resetCounter: () => void;
@@ -34,17 +36,18 @@ type IncrementModeType = {
     disabledHandler: (type: string) => boolean
 }
 
-function IncrementMode(props: IncrementModeType) {
-    return <div>
-        <div className={s.inc}><Button name={"inc"} callback={props.incCounter}
-                                       mode={props.mode} disabledHandler={props.disabledHandler}/></div>
-        <div className={s.reset}><Button name={"reset"} callback={props.resetCounter} mode={props.mode}
-                                         disabledHandler={props.disabledHandler}/></div>
-        <div className={s.set_inc_mode}><Button name={"set"} callback={props.changeMode} mode={props.mode}
-                                                disabledHandler={props.disabledHandler}/></div>
-    </div>
-}
-
+const IncrementMode = React.memo(function (props: IncrementModeType) {
+        console.log('Console Increment mode is rendered')
+        return <div>
+            <div className={s.inc}><Button name={"inc"} callback={props.incCounter}
+                                           mode={props.mode} disabledHandler={props.disabledHandler}/></div>
+            <div className={s.reset}><Button name={"reset"} callback={props.resetCounter} mode={props.mode}
+                                             disabledHandler={props.disabledHandler}/></div>
+            <div className={s.set_inc_mode}><Button name={"set"} callback={props.changeMode} mode={props.mode}
+                                                    disabledHandler={props.disabledHandler}/></div>
+        </div>
+    }
+)
 type SetModeType = {
     changeMode: () => void
     mode: boolean
@@ -54,14 +57,16 @@ type SetModeType = {
 
 }
 
-function SetMode(props: SetModeType) {
-    const ChangeModeHandler = () => {
-        props.changeMode()
+const SetMode = React.memo((props: SetModeType) => {
+        console.log('Console setmode is rendered')
+        const ChangeModeHandler = useCallback(() => {
+            props.changeMode()
+        }, [props])
+        return <div className={s.set_set_mode}>
+            <Button name={"set"} callback={ChangeModeHandler} mode={props.mode}
+                    minValue={props.minValue} disabledHandler={props.disabledHandler}/>
+        </div>
     }
-    return <div className={s.set_set_mode}>
-        <Button name={"set"} callback={ChangeModeHandler} mode={props.mode}
-                minValue={props.minValue} disabledHandler={props.disabledHandler}/>
-    </div>
-}
+)
 
 

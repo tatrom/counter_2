@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Counter2} from "./components/Counter/Counter2";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,61 +8,63 @@ import {
     ChangeMinValueTC,
     ChangeModeTC,
     IncCounter,
-    InitialStateType,
     ResetCounter,
     SetMinAndMaxTC
 } from "./store/counter-reducer";
 
 
 function App() {
+    console.log('App is rendered')
     const dispatch = useDispatch()
-    const state = useSelector<AppStoreType, InitialStateType>(state => state.counter)
+    const minValue = useSelector<AppStoreType, string>(state => state.counter.minValue)
+    const maxValue = useSelector<AppStoreType, string>(state => state.counter.maxValue)
+    const mode = useSelector<AppStoreType, boolean>(state => state.counter.mode)
+    const counter = useSelector<AppStoreType, number>(state => state.counter.counter)
     useEffect(() => {
         dispatch(SetMinAndMaxTC())
     }, [dispatch])
 
 
-    const ChangeMode = () => {
-        dispatch(ChangeModeTC(state.minValue, state.maxValue))
-    }
-
-    const ChangeMinValue = (newValue: string) => {
+    const ChangeMode = useCallback(() => {
+        dispatch(ChangeModeTC(minValue, maxValue))
+    }, [dispatch, minValue, maxValue])
+    const ChangeMinValue = useCallback((newValue: string) => {
         dispatch(ChangeMinValueTC(newValue))
-    }
-    const ChangeMaxValue = (newValue: string) => {
+    }, [dispatch])
+    const ChangeMaxValue = useCallback((newValue: string) => {
         dispatch(ChangeMaxValueTC(newValue))
-    }
-    const DisabledHandler = (type: string): boolean => {
+    }, [dispatch])
+    const DisabledHandler = useCallback((type: string): boolean => {
         if (type === "set") {
-            if (parseInt(state.minValue) >= parseInt(state.maxValue) || state.minValue === '' || state.maxValue === '') {
+            if (parseInt(minValue) >= parseInt(maxValue) || minValue === '' || maxValue === '') {
                 return true
             }
-            if (state.maxValue && state.mode) {
+            if (maxValue && mode) {
                 return false
             }
         }
         if (type === "inc") {
-            if (state.counter >= parseInt(state.maxValue)) {
+            if (counter >= parseInt(maxValue)) {
                 return true
             }
         }
         return false
-    }
+    }, [minValue, maxValue, counter, mode])
 
-    const IncCounterHandler = () => {
+    const IncCounterHandler = useCallback(() => {
         dispatch(IncCounter())
-    }
+    }, [dispatch])
 
-    const ResetCounterHandler = () => {
+    const ResetCounterHandler = useCallback(() => {
         dispatch(ResetCounter())
-    }
+    }, [dispatch])
     return (
         <div className="App">
-            <Counter2 mode={state.mode} counter={state.counter} changeMode={ChangeMode}
+            <Counter2 mode={mode} counter={counter} changeMode={ChangeMode}
                       resetCounter={ResetCounterHandler}
                       incCounter={IncCounterHandler}
-                      minValue={state.minValue}
-                      maxValue={state.maxValue}
+                      minValue={minValue}
+                      maxValue={maxValue}
                       changeMinValue={ChangeMinValue}
                       changeMaxValue={ChangeMaxValue}
                       disabledHandler={DisabledHandler}

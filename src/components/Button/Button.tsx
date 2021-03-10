@@ -10,9 +10,11 @@ type ButtonType = {
 
 }
 
-export function Button(props: ButtonType) {
+export const Button = React.memo(function (props: ButtonType) {
 
-    return <div>
-        <button className={s.button} onClick={props.callback} disabled={props.disabledHandler(props.name)}>{props.name}</button>
-    </div>
-}
+        return <div>
+            <button className={s.button} onClick={props.callback}
+                    disabled={props.disabledHandler(props.name)}>{props.name}</button>
+        </div>
+    }
+)
