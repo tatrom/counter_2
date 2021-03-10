@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import s from './Console.module.css'
 import {Button} from "../../Button/Button";
 
-type ConsoleType = {
+export type ConsolePropsType = {
     mode: boolean
     changeMode: () => void
     resetCounter: () => void
@@ -13,8 +13,7 @@ type ConsoleType = {
     disabledHandler: (type: string) => boolean
 }
 
-export const Console = React.memo((props: ConsoleType) => {
-        console.log('Console is rendered')
+export const Console = React.memo((props: ConsolePropsType) => {
         return <div className={s.console}>
             {props.mode ?
                 <IncrementMode resetCounter={props.resetCounter} changeMode={props.changeMode} incCounter={props.incCounter}
@@ -37,7 +36,6 @@ type IncrementModeType = {
 }
 
 const IncrementMode = React.memo(function (props: IncrementModeType) {
-        console.log('Console Increment mode is rendered')
         return <div>
             <div className={s.inc}><Button name={"inc"} callback={props.incCounter}
                                            mode={props.mode} disabledHandler={props.disabledHandler}/></div>
@@ -58,7 +56,6 @@ type SetModeType = {
 }
 
 const SetMode = React.memo((props: SetModeType) => {
-        console.log('Console setmode is rendered')
         const ChangeModeHandler = useCallback(() => {
             props.changeMode()
         }, [props])

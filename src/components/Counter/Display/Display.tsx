@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 import s from './Display.module.css'
 
-type DisplayProps = {
+export type DisplayProps = {
     mode: boolean
     counter: number
     minValue: string
@@ -11,7 +11,6 @@ type DisplayProps = {
 }
 
 export const Display = React.memo((props: DisplayProps) => {
-        console.log('Dispalcy is rendered')
         let style;
         if (props.mode) {
             style = props.counter < parseInt(props.maxValue) ? s.display : `${s.display} ${s.error}`
@@ -33,7 +32,6 @@ type IncrementModeType = {
 }
 
 const IncrementMode = React.memo(function (props: IncrementModeType) {
-        console.log('Increment  mode is rendered')
         return <div className={s.counter}>
             {props.counter}
         </div>
@@ -49,7 +47,6 @@ type SetModeType = {
 
 
 const SetMode = React.memo(function (props: SetModeType) {
-        console.log('Set mode is rendered')
         let style = parseInt(props.minValue) < parseInt(props.maxValue) ? "" : `${s.setMode} ${s.error}`
         const OnMinChangeHandler =  (e: ChangeEvent<HTMLInputElement>) => {
             const newValue = e.target.value

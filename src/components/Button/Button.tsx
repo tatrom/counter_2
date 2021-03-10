@@ -1,7 +1,7 @@
 import React from "react";
 import s from './Button.module.css'
 
-type ButtonType = {
+export type ButtonType = {
     name: string
     callback: () => void
     mode: boolean

@@ -14,7 +14,6 @@ import {
 
 
 function App() {
-    console.log('App is rendered')
     const dispatch = useDispatch()
     const minValue = useSelector<AppStoreType, string>(state => state.counter.minValue)
     const maxValue = useSelector<AppStoreType, string>(state => state.counter.maxValue)

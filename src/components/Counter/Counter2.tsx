@@ -17,7 +17,6 @@ type CounterType = {
 }
 
 export const Counter2 = React.memo((props: CounterType) => {
-    console.log('Counter is rendered')
         return <div className={s.counter}>
             <Display mode={props.mode} counter={props.counter} minValue={props.minValue} maxValue={props.maxValue}
                      changeMaxValue={props.changeMaxValue} changeMinValue={props.changeMinValue}/>
